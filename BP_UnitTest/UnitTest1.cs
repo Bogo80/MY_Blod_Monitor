@@ -14,12 +14,16 @@ namespace BP_UnitTest
             Assert.AreEqual(BPCategory.Ideal, bp.Category, "Blood pressure should be categorized as Ideal");
         }
 
-        [TestMethod]
-        public void TestHighBloodPressure()
+        [DataTestMethod]
+        [DataRow(80, 50, BPCategory.Low)]
+        [DataRow(110, 70, BPCategory.Ideal)]
+        [DataRow(130, 85, BPCategory.PreHigh)]
+        [DataRow(160, 95, BPCategory.High)]
+        public void TestDataDrivenBloodPressure(int systolic, int diastolic, BPCategory expectedCategory)
         {
-            // Test for high blood pressure
-            var bp = new BloodPressure { Systolic = 160, Diastolic = 95 };
-            Assert.AreEqual(BPCategory.High, bp.Category, "Blood pressure should be categorized as High");
+            // Data-driven test for various blood pressure categories
+            var bp = new BloodPressure { Systolic = systolic, Diastolic = diastolic };
+            Assert.AreEqual(expectedCategory, bp.Category, $"Blood pressure with Systolic: {systolic}, Diastolic: {diastolic} should be categorized as {expectedCategory}");
         }
     }
 }
